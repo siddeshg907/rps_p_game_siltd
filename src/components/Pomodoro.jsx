@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
@@ -6,7 +6,6 @@ import 'react-circular-progressbar/dist/styles.css';
 import startSoundPath from '../assets/Start.mp3';
 import beepSoundPath from '../assets/beep.mp3';
 import breakSoundPath from '../assets/break.mp3';
-
 
 const Pomodoro = () => {
   const [workDuration, setWorkDuration] = useState(25 * 60); // 25 minutes
@@ -16,9 +15,9 @@ const Pomodoro = () => {
   const [isBreak, setIsBreak] = useState(false);
 
   // Create audio objects
-  const startSound = useRef(new Audio(startSoundPath)).current;
-  const beepSound = useRef(new Audio(beepSoundPath)).current;
-  const breakSound = useRef(new Audio(breakSoundPath)).current;
+  const startSound = new Audio(startSoundPath);
+  const beepSound = new Audio(beepSoundPath);
+  const breakSound = new Audio(breakSoundPath);
 
   useEffect(() => {
     setTimeLeft(isBreak ? breakDuration : workDuration);
@@ -26,24 +25,32 @@ const Pomodoro = () => {
 
   useEffect(() => {
     if (isRunning) {
-      startSound.play().catch(e => console.log('Start sound failed:', e));
+      if (!isBreak) {
+        startSound.play().catch(e => console.log('Start sound failed:', e));
+      }
+      
       const intervalId = setInterval(() => {
-        setTimeLeft((prevTime) => {
+        setTimeLeft(prevTime => {
+          // Play beepSound 1 second before the timer ends
+          if (prevTime === 1 && !isBreak) {
+            beepSound.play().catch(e => console.log('Beep sound failed:', e));
+          }
+
           if (prevTime <= 0) {
             if (isBreak) {
-              breakSound.play().catch(e => console.log('Break sound failed:', e));
-              setTimeLeft(workDuration);
               setIsBreak(false);
+              setTimeLeft(workDuration);
             } else {
-              beepSound.play().catch(e => console.log('Beep sound failed:', e));
-              setTimeLeft(breakDuration);
+              breakSound.play().catch(e => console.log('Break sound failed:', e));
               setIsBreak(true);
+              setTimeLeft(breakDuration);
             }
             return prevTime;
           }
           return prevTime - 1;
         });
       }, 1000);
+
       return () => clearInterval(intervalId);
     }
   }, [isRunning, isBreak, workDuration, breakDuration]);
