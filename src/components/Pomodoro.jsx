@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { FaPlay, FaPause, FaRedo, FaHome, FaClock, FaCoffee } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
-// Import audio files
+
 import startSoundPath from '../assets/Start.mp3';
 import beepSoundPath from '../assets/beep.mp3';
 import breakSoundPath from '../assets/break.mp3';
 
 const Pomodoro = () => {
-  const [workDuration, setWorkDuration] = useState(25 * 60); // 25 minutes
-  const [breakDuration, setBreakDuration] = useState(5 * 60); // 5 minutes
+  const [workDuration, setWorkDuration] = useState(25 * 60);
+  const [breakDuration, setBreakDuration] = useState(5 * 60); 
   const [timeLeft, setTimeLeft] = useState(workDuration);
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
+  const [showWorkInput, setShowWorkInput] = useState(false);
+  const [showBreakInput, setShowBreakInput] = useState(false);
+  const navigate = useNavigate();
 
-  // Create audio objects
+  
   const startSound = new Audio(startSoundPath);
   const beepSound = new Audio(beepSoundPath);
   const breakSound = new Audio(breakSoundPath);
@@ -31,7 +36,6 @@ const Pomodoro = () => {
       
       const intervalId = setInterval(() => {
         setTimeLeft(prevTime => {
-          // Play beepSound 1 second before the timer ends
           if (prevTime === 1 && !isBreak) {
             beepSound.play().catch(e => console.log('Beep sound failed:', e));
           }
@@ -70,56 +74,81 @@ const Pomodoro = () => {
     setTimeLeft(isBreak ? breakDuration : workDuration);
   };
 
-  const progress = (100 - (timeLeft / (isBreak ? breakDuration : workDuration)) * 100);
+  const progress = 100 - (timeLeft / (isBreak ? breakDuration : workDuration)) * 100;
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-200 p-4">
-      <h2 className="text-3xl font-bold mb-4">{isBreak ? 'Break Time!' : 'Work Time!'}</h2>
-      <div className="w-48 h-48 mb-6">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-purple-500 text-white p-4 relative">
+      <button
+        onClick={() => navigate('/home')}
+        className="absolute top-4 right-4 text-white hover:text-gray-300 transition duration-300"
+      >
+        <FaHome size={24} />
+      </button>
+      <h2 className="text-4xl font-bold mb-6">{isBreak ? 'Break Time!' : 'Work Time!'}</h2>
+      <div className="w-64 h-64 mb-8">
         <CircularProgressbar
           value={progress}
           text={formatTime(timeLeft)}
           styles={buildStyles({
             pathColor: isBreak ? '#f56565' : '#48bb78',
-            textColor: '#333',
-            trailColor: '#e2e8f0',
+            textColor: '#fff',
+            trailColor: '#d4d4d4',
+            textSize: '24px',
           })}
         />
       </div>
-      <div className="flex space-x-4 mb-6">
+      <div className="flex space-x-6 mb-8">
         <button
           onClick={handleStartStop}
-          className={`px-6 py-3 rounded-lg shadow-md transition duration-300 ${isRunning ? 'bg-red-500 hover:bg-red-600' : 'bg-green-500 hover:bg-green-600'}`}
+          className={`px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ${isRunning ? 'bg-red-600' : 'bg-green-600'}`}
         >
-          {isRunning ? 'Stop' : 'Start'}
+          {isRunning ? <FaPause size={24} /> : <FaPlay size={24} />}
         </button>
         <button
           onClick={handleReset}
-          className="bg-gray-500 text-white px-6 py-3 rounded-lg shadow-md hover:bg-gray-600 transition duration-300"
+          className="bg-gray-600 px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300"
         >
-          Reset
+          <FaRedo size={24} />
         </button>
       </div>
-      <div className="space-y-4">
-        <div>
-          <label className="block mb-2">Work Duration (minutes):</label>
-          <input
-            type="number"
-            min="1"
-            value={workDuration / 60}
-            onChange={(e) => setWorkDuration(Number(e.target.value) * 60)}
-            className="border border-gray-300 px-3 py-2 rounded-lg"
-          />
+      <div className="flex space-x-4 w-64">
+        <div
+          className="relative flex items-center justify-center bg-white text-gray-800 rounded-lg p-2 w-full cursor-pointer"
+          onClick={() => setShowWorkInput(!showWorkInput)}
+        >
+          <FaClock size={50} className="text-indigo-600" />
+          {showWorkInput && (
+            <div className="absolute top-full mt-2 bg-white text-gray-800 rounded-lg shadow-lg p-3 w-full">
+              <input
+                type="number"
+                min="1"
+                value={workDuration / 60}
+                onClick={(e) => e.stopPropagation()} 
+                onChange={(e) => setWorkDuration(Number(e.target.value) * 60)}
+                className="w-full p-2 text-gray-800 rounded-lg focus:outline-none"
+              />
+              <span className="ml-2">min</span>
+            </div>
+          )}
         </div>
-        <div>
-          <label className="block mb-2">Break Duration (minutes):</label>
-          <input
-            type="number"
-            min="1"
-            value={breakDuration / 60}
-            onChange={(e) => setBreakDuration(Number(e.target.value) * 60)}
-            className="border border-gray-300 px-3 py-2 rounded-lg"
-          />
+        <div
+          className="relative flex items-center justify-center bg-white text-gray-800 rounded-lg p-3 w-full cursor-pointer"
+          onClick={() => setShowBreakInput(!showBreakInput)}
+        >
+          <FaCoffee size={50} className="text-indigo-600" />
+          {showBreakInput && (
+            <div className="absolute top-full mt-2 bg-white text-gray-800 rounded-lg shadow-lg p-3 w-full">
+              <input
+                type="number"
+                min="1"
+                value={breakDuration / 60}
+                onClick={(e) => e.stopPropagation()} 
+                onChange={(e) => setBreakDuration(Number(e.target.value) * 60)}
+                className="w-full p-2 text-gray-800 rounded-lg focus:outline-none"
+              />
+              <span className="ml-2">min</span>
+            </div>
+          )}
         </div>
       </div>
     </div>

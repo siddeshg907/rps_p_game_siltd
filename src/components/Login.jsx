@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Alert from './Alert'; // Make sure the path is correct
+import Alert from './Alert'; 
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -16,7 +16,7 @@ const Login = () => {
 
     if (user) {
       localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('currentUser', username); // Store the current user's username
+      localStorage.setItem('currentUser', username); 
       navigate('/home');
     } else {
       setAlert({ message: 'Invalid credentials. Please try again.', type: 'error' });
@@ -24,7 +24,7 @@ const Login = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-blue-200"> 
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
         <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Login</h2>
         {alert && <Alert message={alert.message} type={alert.type} />}
