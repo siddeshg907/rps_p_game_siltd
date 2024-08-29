@@ -5,35 +5,26 @@ import Pomodoro from './Pages/Pomodoro';
 import RPSGame from './Pages/RPSGame';
 import Home from './Pages/Home';
 
-function PrivateRoute({ children }) {
-  return localStorage.getItem('isAuthenticated') ? (
-    children
-  ) : (
-    <Navigate to="/login" replace />
-  );
-}
-
 function App() {
+  // Attempt to parse `isAuthenticated`, defaulting to false if parsing fails
+  const isAuth = JSON.parse(localStorage.getItem('isAuthenticated') || 'false');
+
   return (
     <Routes>
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/home" element={
-        <PrivateRoute>
-          <Home />
-        </PrivateRoute>
-      } />
-      <Route path="/rps-game" element={
-        <PrivateRoute>
-          <RPSGame />
-        </PrivateRoute>
-      } />
-      <Route path="/pomodoro" element={
-        <PrivateRoute>
-          <Pomodoro />
-        </PrivateRoute>
-      } />
-      <Route path="*" element={<Navigate to="/login" replace />} />
+      
+      {isAuth ? (
+        <>
+          <Route path="/home" element={<Home />} />
+          <Route path="/rps-game" element={<RPSGame />} />
+          <Route path="/pomodoro" element={<Pomodoro />} />
+          {/* Redirect from root to home */}
+          <Route path="/" element={<Navigate to="/home" />} />
+        </>
+      ) : (
+        <Route path="*" element={<Navigate to="/login" />} />
+      )}
     </Routes>
   );
 }
