@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Register from './components/Register';
-import Login from './components/Login';
-import Home from './components/Home';
-import RPSGame from './components/RPSGame'; // Create this component
-import Pomodoro from './components/Pomodoro'; // Create this component
+import Register from './Pages/Register';
+import Login from './Pages/Login';
+
+import Pomodoro from './Pages/Pomodoro'; 
+import RPSGame from './Pages/RPSGame';
+import Home from './Pages/Home';
 
 function App() {
   const PrivateRoute = ({ element }) => {

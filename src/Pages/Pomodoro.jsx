@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import startSoundPath from '../assets/Start.mp3';
 import beepSoundPath from '../assets/beep.mp3';
 import breakSoundPath from '../assets/break.mp3';
+import HomeButton from '../components/HomeButton';
 
 const Pomodoro = () => {
   const [workDuration, setWorkDuration] = useState(25 * 60);
@@ -78,13 +79,15 @@ const Pomodoro = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-purple-500 text-white p-4 relative">
-      <button
+      {/* <button
         onClick={() => navigate('/home')}
         className="absolute top-4 right-4 text-white hover:text-gray-300 transition duration-300"
       >
         <FaHome size={24} />
-      </button>
-      <h2 className="text-4xl font-bold mb-6">{isBreak ? 'Break Time!' : 'Work Time!'}</h2>
+      </button> */}
+      <HomeButton/>
+      <h1 className='absolute top-4 text-4xl font-bold pb-6'>POMODOROM APP</h1>
+      <h2 className="text-4xl font-bold mb-6">{isBreak ? 'Break Time!' : 'Lets Focus!'}</h2>
       <div className="w-64 h-64 mb-8">
         <CircularProgressbar
           value={progress}
