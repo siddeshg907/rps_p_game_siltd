@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import { FaPlay, FaPause, FaRedo, FaHome, FaClock, FaCoffee } from 'react-icons/fa';
+import { FaPlay, FaPause, FaRedo, FaClock, FaCoffee } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 

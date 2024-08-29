@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { FaHandPaper, FaHandRock, FaHandScissors } from "react-icons/fa";
-import { choices, determineOutcome } from '../components/utils.jsx'; // Assuming utils.js contains these
+
+import { choices, determineOutcome } from '../components/utils.jsx'; 
 import Scoreboard from '../components/Scoreboard';
 import ChoiceButton from '../components/ChoiceButton';
 import OutcomeDisplay from '../components/OutcomeDisplay';

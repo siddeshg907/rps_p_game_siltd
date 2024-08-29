@@ -1,15 +1,15 @@
-// utils.js
+
 
 import { FaHandPaper, FaHandRock, FaHandScissors } from "react-icons/fa";
 
-// Define the choices for Rock, Paper, Scissors
+
 export const choices = [
     { name: 'rock', icon: <FaHandRock size={60} className="text-gray-700" />, borderColor: 'border-red-500' },
     { name: 'paper', icon: <FaHandPaper size={60} className="text-gray-700" />, borderColor: 'border-blue-500' },
     { name: 'scissors', icon: <FaHandScissors size={60} className="text-gray-700" />, borderColor: 'border-yellow-500' }
   ];
   
-  // Function to determine the outcome of the game
+ 
   export const determineOutcome = (playerChoice, computerChoice) => {
     const outcomes = {
       rock: { rock: 'Draw', paper: 'Lose', scissors: 'Win' },
@@ -37,6 +37,6 @@ export const choices = [
     return { result, explanation };
   };
   
-  // Utility function to capitalize the first letter of a string
+ 
   const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
   
