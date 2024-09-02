@@ -86,7 +86,7 @@ const Pomodoro = () => {
         <FaHome size={24} />
       </button> */}
       <HomeButton/>
-      <h1 className='absolute top-4 text-4xl font-bold pb-6'>POMODOROM APP</h1>
+      <h1 className='absolute top-4 text-4xl font-bold pb-6'>POMODORO APP</h1>
       <h2 className="text-4xl font-bold mb-6">{isBreak ? 'Break Time!' : 'Lets Focus!'}</h2>
       <div className="w-64 h-64 mb-8">
         <CircularProgressbar

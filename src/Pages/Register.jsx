@@ -19,7 +19,7 @@ const Register = () => {
         users.push({ username, password });
         localStorage.setItem('users', JSON.stringify(users));
         setAlert({ message: 'Registration successful. Redirecting to login...', type: 'success' });
-        setTimeout(() => navigate('/login'), 2000); // Redirect after a short delay
+        setTimeout(() => navigate('/login'), 2000); 
       }
     } else {
       setAlert({ message: 'Please fill in both fields.', type: 'error' });
