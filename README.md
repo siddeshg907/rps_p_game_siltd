@@ -36,7 +36,7 @@ npm run dev
 
 ### Implemented
 
-1. /*Register Page
+1. /*Register Page*/
 
 - User should get register.
 - Register page is added for user to get register.
@@ -44,19 +44,19 @@ npm run dev
 - This will create new user.
 
 
-2. /*Login Page
+2. /*Login Page*/
 
 - After successfully user register it will redirect user to login page.
 - Login page includes same fields as "Username" and "Password"
 - User should login themself to get access of game and app
 
-3. /*Home Page
+3. /*Home Page*/
 
 - After successfully login user will get redirected to the home page with a welcome note and options.
 - The welcome note dynamically welcomes user.
 - The options include the tabs to access Rock,Paper,scissor game or Pomodoro app.
 
-4. /*Rock,Paper,Scissor Game
+4. /*Rock,Paper,Scissor Game*/
 
 - After Clicking on option of Rock Paper Scissor on home page we get redirect to game.
 - The Game has score card three options and restart button.
@@ -64,7 +64,7 @@ npm run dev
 - After selecting one option the computer selects own as resulting the results display will open showing WIN ,Lose ,Draw and the score will get increased in win lose or draw.
 - we can restart or continously play the game.
 
-4. /*Pomodoro App
+4. /*Pomodoro App*/
 
 - After Clicking on option of Pomodoro app on home page we get redirect to app.
 - The App has display of time ,start pause button,reset button,and options to set break and timer time.
