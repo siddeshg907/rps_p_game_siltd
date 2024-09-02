@@ -1,38 +1,52 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Alert from '../components/Alert';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Alert from "../components/Alert";
 
 const Register = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
 
   const handleRegister = () => {
     if (username && password) {
-      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const users = JSON.parse(localStorage.getItem("users")) || [];
       const userExists = users.some((user) => user.username === username);
 
       if (userExists) {
-        setAlert({ message: 'Username already exists. Please choose a different username.', type: 'error' });
+        setAlert({
+          message:
+            "Username already exists. Please choose a different username.",
+          type: "error",
+        });
       } else {
         users.push({ username, password });
-        localStorage.setItem('users', JSON.stringify(users));
-        setAlert({ message: 'Registration successful. Redirecting to login...', type: 'success' });
-        setTimeout(() => navigate('/login'), 2000); 
+        localStorage.setItem("users", JSON.stringify(users));
+        setAlert({
+          message: "Registration successful. Redirecting to login...",
+          type: "success",
+        });
+        setTimeout(() => navigate("/login"), 2000);
       }
     } else {
-      setAlert({ message: 'Please fill in both fields.', type: 'error' });
+      setAlert({ message: "Please fill in both fields.", type: "error" });
     }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-blue-200">
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Register</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
+          Register
+        </h2>
         {alert && <Alert message={alert.message} type={alert.type} />}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="username">Username</label>
+          <label
+            className="block text-sm font-medium text-gray-600 mb-2"
+            htmlFor="username"
+          >
+            Username
+          </label>
           <input
             id="username"
             type="text"
@@ -43,7 +57,12 @@ const Register = () => {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="password">Password</label>
+          <label
+            className="block text-sm font-medium text-gray-600 mb-2"
+            htmlFor="password"
+          >
+            Password
+          </label>
           <input
             id="password"
             type="password"

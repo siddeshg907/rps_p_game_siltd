@@ -1,5 +1,5 @@
-import React from 'react';
-import { FaRedo } from 'react-icons/fa';
+import React from "react";
+import { FaRedo } from "react-icons/fa";
 
 const RestartButton = ({ onClick }) => (
   <button

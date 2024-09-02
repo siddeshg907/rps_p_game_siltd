@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-import { FaPlay, FaPause, FaRedo, FaClock, FaCoffee } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+import { FaPlay, FaPause, FaRedo, FaClock, FaCoffee } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-
-import startSoundPath from '../assets/Start.mp3';
-import beepSoundPath from '../assets/beep.mp3';
-import breakSoundPath from '../assets/break.mp3';
-import HomeButton from '../components/HomeButton';
+import startSoundPath from "../assets/Start.mp3";
+import beepSoundPath from "../assets/beep.mp3";
+import breakSoundPath from "../assets/break.mp3";
+import HomeButton from "../components/HomeButton";
 
 const Pomodoro = () => {
   const [workDuration, setWorkDuration] = useState(25 * 60);
-  const [breakDuration, setBreakDuration] = useState(5 * 60); 
+  const [breakDuration, setBreakDuration] = useState(5 * 60);
   const [timeLeft, setTimeLeft] = useState(workDuration);
   const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
@@ -20,7 +19,6 @@ const Pomodoro = () => {
   const [showBreakInput, setShowBreakInput] = useState(false);
   const navigate = useNavigate();
 
-  
   const startSound = new Audio(startSoundPath);
   const beepSound = new Audio(beepSoundPath);
   const breakSound = new Audio(breakSoundPath);
@@ -32,13 +30,13 @@ const Pomodoro = () => {
   useEffect(() => {
     if (isRunning) {
       if (!isBreak) {
-        startSound.play().catch(e => console.log('Start sound failed:', e));
+        startSound.play().catch((e) => console.log("Start sound failed:", e));
       }
-      
+
       const intervalId = setInterval(() => {
-        setTimeLeft(prevTime => {
+        setTimeLeft((prevTime) => {
           if (prevTime === 1 && !isBreak) {
-            beepSound.play().catch(e => console.log('Beep sound failed:', e));
+            beepSound.play().catch((e) => console.log("Beep sound failed:", e));
           }
 
           if (prevTime <= 0) {
@@ -46,7 +44,9 @@ const Pomodoro = () => {
               setIsBreak(false);
               setTimeLeft(workDuration);
             } else {
-              breakSound.play().catch(e => console.log('Break sound failed:', e));
+              breakSound
+                .play()
+                .catch((e) => console.log("Break sound failed:", e));
               setIsBreak(true);
               setTimeLeft(breakDuration);
             }
@@ -63,7 +63,10 @@ const Pomodoro = () => {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const secs = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
+      2,
+      "0"
+    )}`;
   };
 
   const handleStartStop = () => {
@@ -75,35 +78,34 @@ const Pomodoro = () => {
     setTimeLeft(isBreak ? breakDuration : workDuration);
   };
 
-  const progress = 100 - (timeLeft / (isBreak ? breakDuration : workDuration)) * 100;
+  const progress =
+    100 - (timeLeft / (isBreak ? breakDuration : workDuration)) * 100;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-purple-500 text-white p-4 relative">
-      {/* <button
-        onClick={() => navigate('/home')}
-        className="absolute top-4 right-4 text-white hover:text-gray-300 transition duration-300"
-      >
-        <FaHome size={24} />
-      </button> */}
-      <HomeButton/>
-      <h1 className='absolute top-4 text-4xl font-bold pb-6'>POMODORO APP</h1>
-      <h2 className="text-4xl font-bold mb-6">{isBreak ? 'Break Time!' : 'Lets Focus!'}</h2>
+      <HomeButton />
+      <h1 className="absolute top-4 text-4xl font-bold pb-6">POMODORO APP</h1>
+      <h2 className="text-4xl font-bold mb-6">
+        {isBreak ? "Break Time!" : "Lets Focus!"}
+      </h2>
       <div className="w-64 h-64 mb-8">
         <CircularProgressbar
           value={progress}
           text={formatTime(timeLeft)}
           styles={buildStyles({
-            pathColor: isBreak ? '#f56565' : '#48bb78',
-            textColor: '#fff',
-            trailColor: '#d4d4d4',
-            textSize: '24px',
+            pathColor: isBreak ? "#f56565" : "#48bb78",
+            textColor: "#fff",
+            trailColor: "#d4d4d4",
+            textSize: "24px",
           })}
         />
       </div>
       <div className="flex space-x-6 mb-8">
         <button
           onClick={handleStartStop}
-          className={`px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ${isRunning ? 'bg-red-600' : 'bg-green-600'}`}
+          className={`px-8 py-3 rounded-full shadow-lg transform hover:scale-105 transition-transform duration-300 ${
+            isRunning ? "bg-red-600" : "bg-green-600"
+          }`}
         >
           {isRunning ? <FaPause size={24} /> : <FaPlay size={24} />}
         </button>
@@ -126,7 +128,7 @@ const Pomodoro = () => {
                 type="number"
                 min="1"
                 value={workDuration / 60}
-                onClick={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
                 onChange={(e) => setWorkDuration(Number(e.target.value) * 60)}
                 className="w-full p-2 text-gray-800 rounded-lg focus:outline-none"
               />
@@ -145,7 +147,7 @@ const Pomodoro = () => {
                 type="number"
                 min="1"
                 value={breakDuration / 60}
-                onClick={(e) => e.stopPropagation()} 
+                onClick={(e) => e.stopPropagation()}
                 onChange={(e) => setBreakDuration(Number(e.target.value) * 60)}
                 className="w-full p-2 text-gray-800 rounded-lg focus:outline-none"
               />

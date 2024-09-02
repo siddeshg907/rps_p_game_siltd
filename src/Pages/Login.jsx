@@ -1,35 +1,45 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Alert from '../components/Alert'; 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Alert from "../components/Alert";
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [alert, setAlert] = useState(null);
   const navigate = useNavigate();
 
   const handleLogin = () => {
-    const users = JSON.parse(localStorage.getItem('users')) || [];
+    const users = JSON.parse(localStorage.getItem("users")) || [];
     const user = users.find(
       (user) => user.username === username && user.password === password
     );
 
     if (user) {
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('currentUser', username); 
-      navigate('/home');
+      localStorage.setItem("isAuthenticated", "true");
+      localStorage.setItem("currentUser", username);
+      navigate("/home");
     } else {
-      setAlert({ message: 'Invalid credentials. Please try again.', type: 'error' });
+      setAlert({
+        message: "Invalid credentials. Please try again.",
+        type: "error",
+      });
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-blue-200"> 
+    <div className="flex items-center justify-center min-h-screen bg-blue-200">
       <div className="w-full max-w-md p-8 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">Login</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-gray-700">
+          Login
+        </h2>
         {alert && <Alert message={alert.message} type={alert.type} />}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="username">Username</label>
+          <label
+            className="block text-sm font-medium text-gray-600 mb-2"
+            htmlFor="username"
+          >
+            Username
+          </label>
           <input
             id="username"
             type="text"
@@ -40,7 +50,12 @@ const Login = () => {
           />
         </div>
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-600 mb-2" htmlFor="password">Password</label>
+          <label
+            className="block text-sm font-medium text-gray-600 mb-2"
+            htmlFor="password"
+          >
+            Password
+          </label>
           <input
             id="password"
             type="password"

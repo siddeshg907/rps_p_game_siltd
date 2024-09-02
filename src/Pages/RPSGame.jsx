@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-import { choices, determineOutcome } from '../components/utils.jsx'; 
-import Scoreboard from '../components/Scoreboard';
-import ChoiceButton from '../components/ChoiceButton';
-import OutcomeDisplay from '../components/OutcomeDisplay';
-import RestartButton from '../components/RestartButton';
-import HomeButton from '../components/HomeButton';
+import { choices, determineOutcome } from "../components/utils.jsx";
+import Scoreboard from "../components/Scoreboard";
+import ChoiceButton from "../components/ChoiceButton";
+import OutcomeDisplay from "../components/OutcomeDisplay";
+import RestartButton from "../components/RestartButton";
+import HomeButton from "../components/HomeButton";
 
 const RPSGame = () => {
-  const [playerChoice, setPlayerChoice] = useState('');
-  const [computerChoice, setComputerChoice] = useState('');
-  const [outcome, setOutcome] = useState('');
-  const [explanation, setExplanation] = useState('');
+  const [playerChoice, setPlayerChoice] = useState("");
+  const [computerChoice, setComputerChoice] = useState("");
+  const [outcome, setOutcome] = useState("");
+  const [explanation, setExplanation] = useState("");
   const [scores, setScores] = useState({
     win: 0,
     lose: 0,
@@ -19,18 +19,19 @@ const RPSGame = () => {
   });
 
   useEffect(() => {
-    const storedScores = JSON.parse(localStorage.getItem('rps-scores'));
+    const storedScores = JSON.parse(localStorage.getItem("rps-scores"));
     if (storedScores) {
       setScores(storedScores);
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('rps-scores', JSON.stringify(scores));
+    localStorage.setItem("rps-scores", JSON.stringify(scores));
   }, [scores]);
 
   const handleChoice = (choice) => {
-    const randomChoice = choices[Math.floor(Math.random() * choices.length)].name;
+    const randomChoice =
+      choices[Math.floor(Math.random() * choices.length)].name;
     const { result, explanation } = determineOutcome(choice, randomChoice);
 
     setPlayerChoice(choice);
@@ -39,19 +40,22 @@ const RPSGame = () => {
     setExplanation(explanation);
 
     setScores((prevScores) => {
-      const updatedScores = { ...prevScores, [result.toLowerCase()]: prevScores[result.toLowerCase()] + 1 };
-      localStorage.setItem('rps-scores', JSON.stringify(updatedScores));
+      const updatedScores = {
+        ...prevScores,
+        [result.toLowerCase()]: prevScores[result.toLowerCase()] + 1,
+      };
+      localStorage.setItem("rps-scores", JSON.stringify(updatedScores));
       return updatedScores;
     });
   };
 
   const handleRestart = () => {
-    setPlayerChoice('');
-    setComputerChoice('');
-    setOutcome('');
-    setExplanation('');
+    setPlayerChoice("");
+    setComputerChoice("");
+    setOutcome("");
+    setExplanation("");
     setScores({ win: 0, lose: 0, draw: 0 });
-    localStorage.removeItem('rps-scores');
+    localStorage.removeItem("rps-scores");
   };
 
   return (
@@ -60,20 +64,31 @@ const RPSGame = () => {
       <Scoreboard scores={scores} />
 
       {/* Triangle Button Layout */}
-      <div className={`relative w-full max-w-sm h-64 ${outcome ? 'hidden' : 'block'}`}>
+      <div
+        className={`relative w-full max-w-sm h-64 ${
+          outcome ? "hidden" : "block"
+        }`}
+      >
         {choices.map((choice, index) => (
-          <div key={choice.name} className={`absolute ${index === 0 ? 'bottom-0 left-0' : index === 1 ? 'top-0 left-1/2 transform -translate-x-1/2' : 'bottom-0 right-0'}`}>
+          <div
+            key={choice.name}
+            className={`absolute ${
+              index === 0
+                ? "bottom-0 left-0"
+                : index === 1
+                ? "top-0 left-1/2 transform -translate-x-1/2"
+                : "bottom-0 right-0"
+            }`}
+          >
             <ChoiceButton
               onClick={() => handleChoice(choice.name)}
               icon={choice.icon}
               borderColor={choice.borderColor}
             />
           </div>
-          
         ))}
-        
       </div>
-      {!outcome&&<p className='text-3xl font-bold'>CHOOSE ONE</p>}
+      {!outcome && <p className="text-3xl font-bold">CHOOSE ONE</p>}
 
       {outcome && (
         <>
